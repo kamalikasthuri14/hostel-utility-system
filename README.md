@@ -6,6 +6,28 @@ The platform combines real-time resource telemetry, machine learning forecasting
 
 ---
 
+## 🌐 Live Cloud Deployment (Render.com)
+
+* 🖥️ **Interactive Web Application**: `https://hostel-utility-app.onrender.com`
+* ⚙️ **Backend API Server**: `https://hostel-utility-system.onrender.com`
+* 📖 **Interactive Swagger API Documentation**: `https://hostel-utility-system.onrender.com/docs`
+
+---
+
+## 🎨 Modern Vibrant Light Theme
+
+The user interface is crafted with an **attractive, high-contrast light theme**:
+- **Background**: Soft `bg-slate-50` with subtle ambient radial glow accents.
+- **Cards & Containers**: Crisp white cards with smooth hover elevation shadows and clean borders (`border-slate-200/80`).
+- **Vibrant Resource Badges**:
+  - ⚡ **Electricity**: Warm Amber (`#f59e0b` / `bg-amber-50` / `text-amber-700`)
+  - 💧 **Water**: Radiant Sky Blue (`#0284c7` / `bg-sky-50` / `text-sky-700`)
+  - 🔥 **Gas & Mess Kitchen**: Coral Rose (`#e11d48` / `bg-rose-50` / `text-rose-700`)
+  - 💰 **Tariffs & Costs**: Emerald Green (`#059669` / `bg-emerald-50` / `text-emerald-700`)
+  - 🧠 **Machine Learning**: Electric Indigo (`#6366f1` / `bg-indigo-50` / `text-indigo-700`)
+
+---
+
 ## 🌟 Key Features & Core Modules
 
 1. **Executive Operations Dashboard**:
@@ -72,9 +94,10 @@ The platform combines real-time resource telemetry, machine learning forecasting
 | **Frontend** | React 18, Vite 5, Tailwind CSS, Recharts, Lucide React, Axios, React Router Dom |
 | **Backend API** | Python 3.11, FastAPI, Pydantic v2, SQLAlchemy 2.0, Uvicorn |
 | **Machine Learning** | Scikit-learn (Random Forest Regressor, Isolation Forest, Linear Regression), Pandas, NumPy, Joblib |
-| **Database** | MySQL / SQLite (Zero-config local fallback supported out-of-the-box) |
+| **Database** | SQLite (Zero-config local) / PostgreSQL / MySQL |
 | **Security** | JWT (JSON Web Tokens), Bcrypt password hashing, Role-Based Access Control |
 | **Testing** | Pytest, FastAPI TestClient, Httpx |
+| **Deployment** | Render.com (Web Service + Static Site with SPA Rewrites), Git |
 
 ---
 
@@ -100,97 +123,56 @@ $$\text{Water per Student} = \frac{\text{Water Consumption (Litres)}}{\text{Resi
 $$\text{Electricity per Student} = \frac{\text{Electricity Consumption (kWh)}}{\text{Resident Student Count}}$$
 $$\text{Gas per Student} = \frac{\text{Gas Consumption (kg)}}{\text{Resident Student Count}}$$
 
-### 2. Operational Cost Computation
-$$\text{Total Utility Cost (₹)} = (\text{Water}_L \times \text{Rate}_W) + (\text{Electricity}_{\text{kWh}} \times \text{Rate}_E) + (\text{Gas}_{\text{kg}} \times \text{Rate}_G)$$
+### 2. Total Operational Utility Cost
+$$\text{Total Cost (₹)} = (\text{Electricity} \times \text{Rate}_E) + (\text{Water} \times \text{Rate}_W) + (\text{Gas} \times \text{Rate}_G)$$
 
-### 3. Machine Learning Evaluation Metrics
-* **Coefficient of Determination ($R^2$)**:
-  $$R^2 = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2}$$
-* **Mean Absolute Error (MAE)**:
-  $$\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
-* **Root Mean Squared Error (RMSE)**:
-  $$\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
-
-### 4. Anomaly Deviation Formula
-$$\text{Deviation \%} = \frac{\text{Actual Consumption} - \text{Expected Baseline}}{\text{Expected Baseline}} \times 100$$
+### 3. Multi-Pillar Efficiency Index (0–100)
+$$\text{Score} = (0.28 \times \text{WaterEff}) + (0.32 \times \text{ElecEff}) + (0.15 \times \text{GasEff}) + (0.25 \times \text{WastageControl})$$
 
 ---
 
-## 🚀 Getting Started & Setup Guide
+## 🚀 Local Installation & Quick Start
 
-### Prerequisites
-* **Python 3.10+**
-* **Node.js 18+** & **npm**
+### 1. 1-Click Launch (Windows)
+Double click `start_all.bat` in the root folder to start both Backend and Frontend.
 
----
+### 2. Manual Commands
 
-### Backend Setup
+#### Backend API Setup
+```bash
+cd backend
+python -m venv .venv
+# Activate virtualenv:
+# Windows: .venv\Scripts\activate
+# Linux/macOS: source .venv/bin/activate
+pip install -r requirements.txt
+python -m uvicorn app.main:app --reload --port 8000
+```
+* Access Swagger Docs: `http://127.0.0.1:8000/docs`
 
-1. Open a terminal and navigate to `backend/`:
-   ```bash
-   cd backend
-   ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Seed the database and pre-train the ML models:
-   ```bash
-   python -m app.database.seed
-   ```
-
-4. Start the FastAPI development server:
-   ```bash
-   uvicorn app.main:app --reload --port 8000
-   ```
-   * The API server will run at: `http://127.0.0.1:8000`
-   * Interactive Swagger documentation: `http://127.0.0.1:8000/docs`
-
----
-
-### Frontend Setup
-
-1. Open a second terminal and navigate to `frontend/`:
-   ```bash
-   cd frontend
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the Vite React development server:
-   ```bash
-   npm run dev
-   ```
-   * Access the dashboard in your browser at: `http://localhost:5173`
+#### Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+* Access Dashboard: `http://localhost:5173`
 
 ---
 
 ## 🧪 Running Automated Tests
 
-To execute the backend test suite:
 ```bash
 cd backend
-pytest
+pytest -v
 ```
-Test suite verifies:
-* Authentication and role token validation
-* Multi-block summary calculations
-* Consumption CRUD and CSV schema parsing
-* Isolation Forest anomaly identification
-* Random Forest 7-day prediction format and error metrics
-* Maintenance ticket escalation workflows
 
 ---
 
 ## 📂 Project Architecture
 
 ```
-hostel-utility-optimization/
+hostel-utility-system/
 ├── backend/
 │   ├── app/
 │   │   ├── api/             # 13 REST API Routers
@@ -214,5 +196,7 @@ hostel-utility-optimization/
 │   └── vite.config.js
 ├── data/
 │   └── sample_consumption.csv # Ready-to-import CSV sample dataset
+├── render.yaml              # Render Cloud deployment blueprint
+├── start_all.bat            # 1-Click Windows Launcher
 └── README.md
 ```
